@@ -1,11 +1,8 @@
-import { useState } from 'react'
 import './App.css'
 import HomePage from './pages/Home'
 import AppProvider from './providers/AppProvider'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <AppProvider>
       <HomePage />

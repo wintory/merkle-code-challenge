@@ -1,10 +1,20 @@
-const Filter = ({ filterOpenSymbols, sortAlphabeticalSymbols, shffuleSymbols }) => {
+const Filter = ({
+  filterOpenSymbols,
+  sortAlphabeticalSymbols,
+  shffuleSymbols,
+}) => {
   return (
     <div>
-      <label className="label cursor-pointer">
-        <span className="label-text">Open Symbol</span>
-        <input type="checkbox" className="toggle" onChange={filterOpenSymbols} />
-      </label>
+      <div>
+        <label className="label cursor-pointer">
+          <span className="label-text">Open Status</span>
+          <input
+            type="checkbox"
+            className="toggle"
+            onChange={filterOpenSymbols}
+          />
+        </label>
+      </div>
       <button onClick={sortAlphabeticalSymbols}>Sort Symbols</button>
       <button onClick={shffuleSymbols}>Shuffle Toggle</button>
     </div>
