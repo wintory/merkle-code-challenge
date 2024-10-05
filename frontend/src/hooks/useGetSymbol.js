@@ -37,7 +37,7 @@ const useGetSymbol = () => {
     })
   }, [setFilterOption, filteredOption])
 
-  const { error, data, isFetching } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ['symbolData'],
     queryFn: getCoinSymbol,
   })
@@ -75,7 +75,6 @@ const useGetSymbol = () => {
   return {
     isFetching,
     data: filterSymbols,
-    error,
     shffuleSymbols,
     sortAlphabeticalSymbols,
     filterOpenSymbols,

@@ -6,7 +6,6 @@ import useGetSymbol from '../hooks/useGetSymbol'
 const HomePage = ({ symbols }) => {
   const {
     data,
-    error,
     isFetching,
     sortAlphabeticalSymbols,
     shffuleSymbols,
@@ -27,19 +26,25 @@ const HomePage = ({ symbols }) => {
         shffuleSymbols={shffuleSymbols}
       />
       <div className="divider" />
-      <div className="mb-4 flex justify-center">
-        <div className="inline-flex items-center gap-2 bg-transparent p-2">
-          Total Symbol:
-          <div className="badge badge-secondary">{total}</div>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {data.map((symbol) => (
-          <Fragment key={symbol.id}>
-            <Card key={symbol.id} id={symbol.id} status={symbol.status} />
-          </Fragment>
-        ))}
-      </div>
+      {total > 0 ? (
+        <>
+          <div className="mb-4 flex justify-center">
+            <div className="inline-flex items-center gap-2 bg-transparent p-2">
+              Total Symbol:
+              <div className="badge badge-secondary">{total}</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {data.map((symbol) => (
+              <Fragment key={symbol.id}>
+                <Card key={symbol.id} id={symbol.id} status={symbol.status} />
+              </Fragment>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div className="text-center">No data</div>
+      )}
     </div>
   )
 }
