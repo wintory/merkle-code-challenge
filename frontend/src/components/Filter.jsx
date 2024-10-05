@@ -15,15 +15,15 @@ const Filter = ({
           />
         </label>
       </div>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap justify-center gap-2">
         <button
-          className="btn btn-outline btn-primary focus:outline-none"
+          className="btn btn-outline btn-primary min-w-[150px] focus:outline-none"
           onClick={sortAlphabeticalSymbols}
         >
           Sort Alphabetical
         </button>
         <button
-          className="btn btn-outline btn-warning focus:outline-none"
+          className="btn btn-outline btn-warning min-w-[150px] focus:outline-none"
           onClick={shffuleSymbols}
         >
           Shuffle Toggle
