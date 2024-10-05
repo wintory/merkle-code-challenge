@@ -1,76 +1,86 @@
-import {
-    useQuery
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { orderBy } from 'lodash'
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { SymbolStatus } from '../constants/symbol'
 import { getSymbol } from '../services/symbol'
 import { transformSymbols } from '../utilities/symbol'
 
 const useGetSymbol = () => {
-    const [filteredOption, setFilterOption] = useState({
-        isOpenStatus: false,
-        isSoryByAlphabetical: false,
-        isShuffle: false
+  const [filteredOption, setFilterOption] = useState({})
+
+  const getCoinSymbol = useCallback(async () => {
+    const data = await getSymbol()
+
+    return transformSymbols(data)
+  }, [])
+
+  const shffuleSymbols = useCallback(() => {
+    setFilterOption({
+      ...filteredOption,
+      isSoryByAlphabetical: false,
+      isShuffle: true,
     })
+  }, [setFilterOption, filteredOption])
 
-    const getCoinSymbol = useCallback(async () => {
-        const data = await getSymbol()
-
-        return transformSymbols(data)
-    }, [])
-
-
-    const shffuleSymbols = useCallback(() => {
-        setFilterOption({
-            ...filteredOption,
-            isSoryByAlphabetical: false,
-            isShuffle: true
-        })
-    }, [setFilterOption, filteredOption])
-
-    const sortAlphabeticalSymbols = useCallback(() => {
-        setFilterOption({
-            ...filteredOption,
-            isSoryByAlphabetical: !filteredOption.isSoryByAlphabetical,
-            isShuffle: false
-        })
-    }, [setFilterOption, filteredOption])
-
-    const filterOpenSymbols = useCallback(() => {
-        setFilterOption({
-            ...filteredOption,
-            isOpenStatus: !filteredOption.isOpenStatus
-        })
-    }, [setFilterOption, filteredOption])
-
-    const { error, data, isFetching } = useQuery({
-        queryKey: ['symbolData'],
-        queryFn: getCoinSymbol,
+  const sortAlphabeticalSymbols = useCallback(() => {
+    setFilterOption({
+      ...filteredOption,
+      isSoryByAlphabetical: true,
+      isShuffle: false,
     })
+  }, [setFilterOption, filteredOption])
 
-    const filterSymbols = useMemo(() => {
-        if (!data) return []
+  const filterOpenSymbols = useCallback(() => {
+    setFilterOption({
+      ...filteredOption,
+      isOpenStatus: !filteredOption.isOpenStatus,
+    })
+  }, [setFilterOption, filteredOption])
 
-        let symbolData = data || []
+  const { error, data, isFetching } = useQuery({
+    queryKey: ['symbolData'],
+    queryFn: getCoinSymbol,
+  })
 
-        if (filteredOption.isOpenStatus) {
-            symbolData = symbolData.filter(symbol => symbol.status === SymbolStatus.OPEN)
-        }
+  const filterSymbols = useMemo(() => {
+    if (!data) return []
 
-        if (filteredOption.isSoryByAlphabetical) {
-            symbolData = orderBy(symbolData, 'id', 'asc')
-        }
+    let symbolData = data || []
 
-        if (filteredOption.isShuffle) {
-            symbolData = ([...symbolData].sort(() => Math.random() - 0.5))
-        }
+    if (filteredOption.isOpenStatus) {
+      symbolData = symbolData.filter(
+        (symbol) => symbol.status === SymbolStatus.OPEN
+      )
+    }
 
-        return symbolData
-    }, [data, filteredOption])
+    if (filteredOption.isSoryByAlphabetical) {
+      symbolData = orderBy(symbolData, 'id', 'asc')
+    }
 
+    if (filteredOption.isShuffle) {
+      symbolData = [...symbolData].sort(() => Math.random() - 0.5)
+    }
 
-    return { isFetching, data: filterSymbols, error, shffuleSymbols, sortAlphabeticalSymbols, filterOpenSymbols,filteredOption}
+    return symbolData
+  }, [data, filteredOption])
+
+  useEffect(() => {
+    setFilterOption({
+      isOpenStatus: false,
+      isSoryByAlphabetical: false,
+      isShuffle: false,
+    })
+  }, [])
+
+  return {
+    isFetching,
+    data: filterSymbols,
+    error,
+    shffuleSymbols,
+    sortAlphabeticalSymbols,
+    filterOpenSymbols,
+    filteredOption,
+  }
 }
 
 export default useGetSymbol

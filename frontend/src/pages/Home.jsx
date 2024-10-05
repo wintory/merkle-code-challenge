@@ -1,3 +1,5 @@
+import { Fragment } from 'react'
+import Card from '../components/Card'
 import Filter from '../components/Filter'
 import useGetSymbol from '../hooks/useGetSymbol'
 
@@ -16,23 +18,28 @@ const HomePage = ({ symbols }) => {
     return <span className="loading loading-dots loading-lg"></span>
   }
 
+  // TODO: refactor component to dumb component
   return (
-    <div className="m-0">
-      <div>
-        <Filter
-          filterOpenSymbols={filterOpenSymbols}
-          sortAlphabeticalSymbols={sortAlphabeticalSymbols}
-          shffuleSymbols={shffuleSymbols}
-        />
-        <span>total: {total}</span>
-      </div>
-      {data.map((symbol) => (
-        <div key={symbol.id}>
-          <p>{symbol.key}</p>
-          <p>{symbol.id}</p>
-          <p>{symbol.status}</p>
+    <div className="grid w-full">
+      <Filter
+        filterOpenSymbols={filterOpenSymbols}
+        sortAlphabeticalSymbols={sortAlphabeticalSymbols}
+        shffuleSymbols={shffuleSymbols}
+      />
+      <div className="divider" />
+      <div className="mb-4 flex justify-center">
+        <div className="inline-flex items-center gap-2 bg-transparent p-2">
+          Total Symbol:
+          <div className="badge badge-secondary">{total}</div>
         </div>
-      ))}
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {data.map((symbol) => (
+          <Fragment key={symbol.id}>
+            <Card key={symbol.id} id={symbol.id} status={symbol.status} />
+          </Fragment>
+        ))}
+      </div>
     </div>
   )
 }
