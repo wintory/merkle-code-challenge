@@ -7,9 +7,9 @@ export const getSymbol = async () => {
       method: 'GET',
     })
 
-    return response.data
+    return response?.data
   } catch (e) {
     console.error(e)
-    return response.error
+    return e
   }
 }

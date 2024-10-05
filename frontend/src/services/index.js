@@ -1,13 +1,12 @@
-import axios from "axios"
-
-const DEFAULT_BLOCKCHAIN_URL = 'https://api.blockchain.com/v3/exchange'
+import axios from 'axios'
+import { DEFAULT_BLOCKCHAIN_URL } from '../constants/url'
 
 const axiosInstance = axios.create({
-  baseURL : import.meta.env.VITE_REACT_APP_API_URL || DEFAULT_BLOCKCHAIN_URL,
+  baseURL: import.meta.env.VITE_REACT_APP_API_URL || DEFAULT_BLOCKCHAIN_URL,
   headers: {
-    "Content-Type": "application/json",
-    timeout : 30000,
-  }, 
-});
+    'Content-Type': 'application/json',
+    timeout: 30000,
+  },
+})
 
-export default axiosInstance;
+export default axiosInstance

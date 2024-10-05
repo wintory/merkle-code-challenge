@@ -2,7 +2,6 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from 'tailwindcss'
 import { defineConfig } from 'vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   test: {
@@ -11,7 +10,7 @@ export default defineConfig({
     },
     environment: 'jsdom',
     globals: true,
-    include: ['src/**/*.test.jsx'],
+    include: ['**/*.test.{js,jsx}'],
     exclude: ['node_modules'],
     setupFiles: ['src/tests/setupTest.js'],
   },

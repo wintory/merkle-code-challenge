@@ -7,7 +7,7 @@ const Filter = ({
     <div className="grid items-center justify-center gap-2 md:flex md:justify-around">
       <div>
         <label className="label cursor-pointer">
-          <span className="label-text pr-2">Open Status</span>
+          <span className="label-text pr-2 text-white">Open Status</span>
           <input
             type="checkbox"
             className="toggle toggle-primary"
@@ -17,7 +17,7 @@ const Filter = ({
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         <button
-          className="btn btn-outline btn-primary min-w-[150px] focus:outline-none"
+          className="btn btn-outline btn-secondary min-w-[150px] focus:outline-none"
           onClick={sortAlphabeticalSymbols}
         >
           Sort Alphabetical

@@ -35,7 +35,7 @@ const HomePage = ({ symbols }) => {
           <div className="mb-4 flex justify-center">
             <div className="inline-flex items-center gap-2 bg-transparent p-2">
               Total Symbol:
-              <div className="badge badge-secondary">{total}</div>
+              <div className="badge badge-primary">{total}</div>
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
