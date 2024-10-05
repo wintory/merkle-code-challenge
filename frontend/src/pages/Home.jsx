@@ -14,7 +14,11 @@ const HomePage = ({ symbols }) => {
   const total = data.length
 
   if (isFetching) {
-    return <span className="loading loading-dots loading-lg"></span>
+    return (
+      <div className="flex h-full items-center justify-center">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    )
   }
 
   // TODO: refactor component to dumb component
