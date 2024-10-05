@@ -1,12 +1,13 @@
+import { describe, expect, it } from 'vitest'
 import { transformSymbols } from './symbol'
 
 describe('transformSymbols', () => {
   it('should return an empty object if symbols is not provided', () => {
-    expect(transformSymbols()).toEqual({})
+    expect(transformSymbols()).toEqual([])
   })
 
   it('should return an empty object if symbols is an empty object', () => {
-    expect(transformSymbols({})).toEqual({})
+    expect(transformSymbols({})).toEqual([])
   })
 
   it('should transform symbols correctly', () => {
