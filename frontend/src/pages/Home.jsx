@@ -20,7 +20,7 @@ const HomePage = ({ symbols }) => {
       </div>
     )
   }
-
+  console.log({ data })
   // TODO: refactor component to dumb component
   return (
     <div className="grid w-full text-sm">
@@ -41,7 +41,11 @@ const HomePage = ({ symbols }) => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {data.map((symbol) => (
               <Fragment key={symbol.id}>
-                <Card key={symbol.id} id={symbol.id} status={symbol.status} />
+                <Card
+                  title={symbol.key}
+                  id={symbol.id}
+                  status={symbol.status}
+                />
               </Fragment>
             ))}
           </div>

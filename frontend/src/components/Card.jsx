@@ -1,12 +1,16 @@
 import { SymbolStatus } from '../constants/symbol'
 
-const Card = ({ key, id, status }) => {
+const Card = ({ title, id, status }) => {
   return (
     <div className="rounded-md bg-transparent p-4 text-left outline-double hover:bg-slate-800">
-      <p>Symbol: {key}</p>
-      <p>ID: {id}</p>
       <p>
-        Status:{' '}
+        <b>Symbol:</b> {title}
+      </p>
+      <p>
+        <b>ID:</b> {id}
+      </p>
+      <p>
+        <b>Status:</b>{' '}
         <span
           className={
             status === SymbolStatus.OPEN ? 'text-green-300' : 'text-red-300'
