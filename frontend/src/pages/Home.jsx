@@ -5,24 +5,28 @@ import useGetSymbol from '../hooks/useGetSymbol'
 const HomePage = ({ symbols }) => {
     const [filteredSymbols, setFilteredSymbols] = useState(symbols)
     const [isOpen, setIsOpen] = useState(false)
-    const {data, error, isFetching} = useGetSymbol(symbols)
+    const { data, error, isFetching, sortAlphabeticalSymbols, shffuleSymbols, filterOpenSymbols } = useGetSymbol(symbols)
 
-    const toggleOpenSymbols = () => {
-        setIsOpen(!isOpen)
-        setFilteredSymbols(isOpen ? symbols : symbols.filter(symbol => symbol.status === 'open'))
+
+    if (isFetching) {
+        return <p>Loading...</p>
     }
-
-    const sortSymbols = () => {
-        setFilteredSymbols([...filteredSymbols].sort((a, b) => a.id.localeCompare(b.id)))
-    }
-
-    const shuffleSymbols = () => {
-        setFilteredSymbols([...filteredSymbols].sort(() => Math.random() - 0.5))
-    }
-
 
     return (
         <>
+            <button onClick={sortAlphabeticalSymbols}>Sort Symbols</button>
+            <button onClick={filterOpenSymbols}>Toggle Open Symbols</button>
+            <button onClick={shffuleSymbols}>Shuffle Toggle</button>
+
+            {
+                data.map(symbol => (
+                    <div key={symbol.id}>
+                        <p>{symbol.key}</p>
+                        <p>{symbol.id}</p>
+                        <p>{symbol.status}</p>
+                    </div>
+                ))
+            }
             {/* <SymbolList symbols={filteredSymbols} /> */}
         </>
     )

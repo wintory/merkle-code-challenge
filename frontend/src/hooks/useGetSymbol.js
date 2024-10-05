@@ -10,7 +10,8 @@ import { transformSymbols } from '../utilities/symbol'
 const useGetSymbol = () => {
     const [filteredOption, setFilterOption] = useState({
         isOpenStatus: true,
-        isSoryByAlphabetical: true,
+        isSoryByAlphabetical: false,
+        isShuffle: false
     })
 
     const getCoinSymbol = useCallback(async () => {
@@ -19,6 +20,30 @@ const useGetSymbol = () => {
         return transformSymbols(data)
     }, [])
 
+
+    const shffuleSymbols = () => {
+        setFilterOption({
+            ...filteredOption,
+            isSoryByAlphabetical: false,
+            isShuffle: true
+        })
+    }
+
+    const sortAlphabeticalSymbols = () => {
+        setFilterOption({
+            ...filteredOption,
+            isSoryByAlphabetical: true,
+            isShuffle: false
+        })
+    }
+
+    const filterOpenSymbols = () => {
+        setFilterOption({
+            ...filteredOption,
+            isSoryByAlphabetical: false,
+            isShuffle: true
+        })
+    }
 
     const { error, data, isFetching } = useQuery({
         queryKey: ['symbolData'],
@@ -38,11 +63,16 @@ const useGetSymbol = () => {
             symbolData = orderBy(symbolData, 'id', 'asc')
         }
 
+        if (filteredOption.isShuffle) {
+            symbolData = ([...symbolData].sort(() => Math.random() - 0.5))
+        }
+
 
         return symbolData
     }, [data, filteredOption])
 
-    return { isFetching, data: filterSymbols, error, setFilterOption }
+
+    return { isFetching, data: filterSymbols, error, shffuleSymbols, sortAlphabeticalSymbols, filterOpenSymbols }
 }
 
 export default useGetSymbol
