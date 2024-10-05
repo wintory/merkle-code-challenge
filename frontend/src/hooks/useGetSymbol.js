@@ -9,7 +9,7 @@ import { transformSymbols } from '../utilities/symbol'
 
 const useGetSymbol = () => {
     const [filteredOption, setFilterOption] = useState({
-        isOpenStatus: true,
+        isOpenStatus: false,
         isSoryByAlphabetical: false,
         isShuffle: false
     })
@@ -21,29 +21,28 @@ const useGetSymbol = () => {
     }, [])
 
 
-    const shffuleSymbols = () => {
+    const shffuleSymbols = useCallback(() => {
         setFilterOption({
             ...filteredOption,
             isSoryByAlphabetical: false,
             isShuffle: true
         })
-    }
+    }, [setFilterOption, filteredOption])
 
-    const sortAlphabeticalSymbols = () => {
+    const sortAlphabeticalSymbols = useCallback(() => {
         setFilterOption({
             ...filteredOption,
-            isSoryByAlphabetical: true,
+            isSoryByAlphabetical: !filteredOption.isSoryByAlphabetical,
             isShuffle: false
         })
-    }
+    }, [setFilterOption, filteredOption])
 
-    const filterOpenSymbols = () => {
+    const filterOpenSymbols = useCallback(() => {
         setFilterOption({
             ...filteredOption,
-            isSoryByAlphabetical: false,
-            isShuffle: true
+            isOpenStatus: !filteredOption.isOpenStatus
         })
-    }
+    }, [setFilterOption, filteredOption])
 
     const { error, data, isFetching } = useQuery({
         queryKey: ['symbolData'],
@@ -67,12 +66,11 @@ const useGetSymbol = () => {
             symbolData = ([...symbolData].sort(() => Math.random() - 0.5))
         }
 
-
         return symbolData
     }, [data, filteredOption])
 
 
-    return { isFetching, data: filterSymbols, error, shffuleSymbols, sortAlphabeticalSymbols, filterOpenSymbols }
+    return { isFetching, data: filterSymbols, error, shffuleSymbols, sortAlphabeticalSymbols, filterOpenSymbols,filteredOption}
 }
 
 export default useGetSymbol

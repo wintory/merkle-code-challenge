@@ -1,23 +1,19 @@
-import { useState } from "react"
+import Filter from '../components/Filter'
 import useGetSymbol from '../hooks/useGetSymbol'
 
 
 const HomePage = ({ symbols }) => {
-    const [filteredSymbols, setFilteredSymbols] = useState(symbols)
-    const [isOpen, setIsOpen] = useState(false)
     const { data, error, isFetching, sortAlphabeticalSymbols, shffuleSymbols, filterOpenSymbols } = useGetSymbol(symbols)
-
+    const total = data.length
 
     if (isFetching) {
-        return <p>Loading...</p>
+        return <span className="loading loading-dots loading-lg"></span>
     }
 
     return (
         <>
-            <button onClick={sortAlphabeticalSymbols}>Sort Symbols</button>
-            <button onClick={filterOpenSymbols}>Toggle Open Symbols</button>
-            <button onClick={shffuleSymbols}>Shuffle Toggle</button>
-
+            <Filter filterOpenSymbols={filterOpenSymbols} sortAlphabeticalSymbols={sortAlphabeticalSymbols} shffuleSymbols={shffuleSymbols} />
+            <span>total: {total}</span>
             {
                 data.map(symbol => (
                     <div key={symbol.id}>
