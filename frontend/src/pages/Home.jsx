@@ -20,7 +20,7 @@ const HomePage = ({ symbols }) => {
 
   // TODO: refactor component to dumb component
   return (
-    <div className="grid w-full">
+    <div className="grid w-full text-sm">
       <Filter
         filterOpenSymbols={filterOpenSymbols}
         sortAlphabeticalSymbols={sortAlphabeticalSymbols}
