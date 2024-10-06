@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { getCoinbaseSymbolPrice } from './coinbaseService'
+import { getBinanceSymbolPrice } from '../../src/services/binanceService'
 
-describe('getCoinbaseSymbolPrice', () => {
+describe('getBinanceSymbolPrice', () => {
   const mockedAxios = jest.spyOn(axios, 'get')
 
   afterEach(() => {
@@ -9,24 +9,22 @@ describe('getCoinbaseSymbolPrice', () => {
   })
 
   beforeAll(() => {
-    process.env.COINBASE_API_URL = 'https://api.coinbase.com'
+    process.env.BINANCE_API_URL = 'https://api.binance.com'
   })
 
   it('should return the correct price when API call is successful', async () => {
     const mockResponse = {
       data: {
-        data: {
-          amount: '50000',
-        },
+        price: '50000',
       },
     }
-    const symbol = 'BTC-USDT'
+    const symbol = 'BTCUSDT'
     mockedAxios.mockResolvedValue(mockResponse)
 
-    const result = await getCoinbaseSymbolPrice({ symbol })
+    const result = await getBinanceSymbolPrice({ symbol })
 
     expect(mockedAxios).toHaveBeenCalledWith(
-      'https://api.coinbase.com/v2/prices/BTC-USDT/spot'
+      `https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`
     )
     expect(result).toEqual(50000)
   })
@@ -36,24 +34,18 @@ describe('getCoinbaseSymbolPrice', () => {
     const mockError = new Error('API call failed')
     mockedAxios.mockRejectedValue(mockError)
 
-    await expect(getCoinbaseSymbolPrice({ symbol })).rejects.toThrow(
-      'Failed to fetch price from Coinbase'
+    await expect(getBinanceSymbolPrice({ symbol })).rejects.toThrow(
+      'Failed to fetch price from Binance'
     )
   })
 
   it('should throw an error when price data is invalid', async () => {
     const symbol = 'BTC-USDT'
-    const mockResponse = {
-      data: {
-        data: {
-          amount: 'invalid',
-        },
-      },
-    }
+    const mockResponse = {}
     mockedAxios.mockResolvedValue(mockResponse)
 
-    await expect(getCoinbaseSymbolPrice({ symbol })).rejects.toThrow(
-      'Failed to fetch price from Coinbase'
+    await expect(getBinanceSymbolPrice({ symbol })).rejects.toThrow(
+      'Failed to fetch price from Binance'
     )
   })
 })

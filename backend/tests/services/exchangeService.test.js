@@ -1,6 +1,6 @@
-import * as BinanceService from './binanceService'
-import * as CoinbaseService from './coinbaseService'
-import { getBestExchangeToBuyBTC } from './exchangeService'
+import * as BinanceService from '../../src/services/binanceService'
+import * as CoinbaseService from '../../src/services/coinbaseService'
+import { getBestExchangeToBuyBTC } from '../../src/services/exchangeService'
 
 describe('getBestExchangeToBuyBTC', () => {
   const mockedGetBinanceSymbolPrice = jest
