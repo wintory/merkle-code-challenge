@@ -14,7 +14,7 @@ const useGetSymbol = () => {
     return transformSymbols(data)
   }, [])
 
-  const shffuleSymbols = useCallback(() => {
+  const shuffleSymbols = useCallback(() => {
     setFilterOption({
       ...filteredOption,
       isSoryByAlphabetical: false,
@@ -75,7 +75,7 @@ const useGetSymbol = () => {
   return {
     isFetching,
     data: filterSymbols,
-    shffuleSymbols,
+    shuffleSymbols,
     sortAlphabeticalSymbols,
     filterOpenSymbols,
     filteredOption,

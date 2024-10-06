@@ -8,7 +8,7 @@ const HomePage = ({ symbols }) => {
     data,
     isFetching,
     sortAlphabeticalSymbols,
-    shffuleSymbols,
+    shuffleSymbols,
     filterOpenSymbols,
   } = useGetSymbol(symbols)
   const total = data.length
@@ -20,14 +20,14 @@ const HomePage = ({ symbols }) => {
       </div>
     )
   }
-  console.log({ data })
+
   // TODO: refactor component to dumb component
   return (
     <div className="grid w-full text-sm">
       <Filter
         filterOpenSymbols={filterOpenSymbols}
         sortAlphabeticalSymbols={sortAlphabeticalSymbols}
-        shffuleSymbols={shffuleSymbols}
+        shuffleSymbols={shuffleSymbols}
       />
       <div className="divider" />
       {total > 0 ? (

@@ -1,7 +1,7 @@
 const Filter = ({
   filterOpenSymbols,
   sortAlphabeticalSymbols,
-  shffuleSymbols,
+  shuffleSymbols,
 }) => {
   return (
     <div className="grid items-center justify-center gap-2 md:flex md:justify-around">
@@ -10,6 +10,7 @@ const Filter = ({
           <span className="label-text pr-2 text-white">Open Status</span>
           <input
             type="checkbox"
+            data-testid="open-status-toggle"
             className="toggle toggle-primary"
             onChange={filterOpenSymbols}
           />
@@ -17,16 +18,18 @@ const Filter = ({
       </div>
       <div className="flex flex-wrap justify-center gap-2">
         <button
-          className="btn btn-outline btn-secondary min-w-[150px] focus:outline-none"
+          className="btn btn-outline btn-secondary min-w-[190px] focus:outline-none"
+          data-testid="sort-alphabetical-button"
           onClick={sortAlphabeticalSymbols}
         >
-          Sort Alphabetical
+          Sort Alphabetical by ID
         </button>
         <button
-          className="btn btn-outline btn-warning min-w-[150px] focus:outline-none"
-          onClick={shffuleSymbols}
+          className="btn btn-outline btn-warning min-w-[190px] focus:outline-none"
+          data-testid="suffle-button"
+          onClick={shuffleSymbols}
         >
-          Shuffle Toggle
+          Shuffle Items
         </button>
       </div>
     </div>
