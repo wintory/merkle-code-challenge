@@ -3,25 +3,27 @@ import Card from '../components/Card'
 import Filter from '../components/Filter'
 import useGetSymbol from '../hooks/useGetSymbol'
 
-const HomePage = ({ symbols }) => {
+const HomePage = () => {
   const {
     data,
     isFetching,
     sortAlphabeticalSymbols,
     shuffleSymbols,
     filterOpenSymbols,
-  } = useGetSymbol(symbols)
+  } = useGetSymbol()
   const total = data.length
 
   if (isFetching) {
     return (
       <div className="flex h-full items-center justify-center">
-        <span className="loading loading-dots loading-lg"></span>
+        <span
+          className="loading loading-dots loading-lg"
+          data-testid="loading-spinner"
+        ></span>
       </div>
     )
   }
 
-  // TODO: refactor component to dumb component
   return (
     <div className="grid w-full text-sm">
       <Filter
@@ -38,7 +40,10 @@ const HomePage = ({ symbols }) => {
               <div className="badge badge-primary">{total}</div>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            data-testid="symbol-cards"
+            className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+          >
             {data.map((symbol) => (
               <Fragment key={symbol.id}>
                 <Card
