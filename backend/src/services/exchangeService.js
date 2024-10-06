@@ -1,16 +1,17 @@
-// import { getBinancePrice } from './binanceService'
-// import { getCoinbasePrice } from './coinbaseService'
+import { getBinanceSymbolPrice } from './binanceService'
+import { getCoinbaseSymbolPrice } from './coinbaseService'
 
-export const getBestExchange = async (btcAmount) => {
+export const getBestExchangeToBuyBTC = async (btcAmount) => {
+  const symbol = 'BTCUSDT'
   const [binancePrice, coinbasePrice] = await Promise.all([
-    // getBinancePrice(),
-    // getCoinbasePrice()
-  ]);
+    getBinanceSymbolPrice({ symbol }),
+    getCoinbaseSymbolPrice({ symbol: 'BTC-USDT' }),
+  ])
 
-  const binanceCost = btcAmount * binancePrice;
-  const coinbaseCost = btcAmount * coinbasePrice;
+  const binanceCost = btcAmount * binancePrice
+  const coinbaseCost = btcAmount * coinbasePrice
 
   return binanceCost < coinbaseCost
     ? { btcAmount, usdAmount: binanceCost, exchange: 'binance' }
-    : { btcAmount, usdAmount: coinbaseCost, exchange: 'coinbase' };
-};
+    : { btcAmount, usdAmount: coinbaseCost, exchange: 'coinbase' }
+}
