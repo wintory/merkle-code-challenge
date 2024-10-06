@@ -3,7 +3,7 @@ import axios from 'axios'
 export const getBinanceSymbolPrice = async ({ symbol }) => {
   try {
     const response = await axios.get(
-      `${process.env.BINANCE_API_URL}/api/v3/ticker/price?symbol=${symbol}`
+      `${process.env.BINANCE_API_URL || 'https://api.binance.com'}/api/v3/ticker/price?symbol=${symbol}`
     )
     const price = parseFloat(response.data.price)
 

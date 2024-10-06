@@ -3,7 +3,7 @@ import axios from 'axios'
 export const getCoinbaseSymbolPrice = async ({ symbol }) => {
   try {
     const response = await axios.get(
-      `${process.env.COINBASE_API_URL}/v2/prices/${symbol}/spot`
+      `${process.env.COINBASE_API_URL || 'https://api.coinbase.com'}/v2/prices/${symbol}/spot`
     )
     const price = parseFloat(response.data.data.amount)
 
