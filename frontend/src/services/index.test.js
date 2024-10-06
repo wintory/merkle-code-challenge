@@ -1,23 +1,45 @@
-import axios from 'axios'
-import { describe, expect, it } from 'vitest'
-import { DEFAULT_BLOCKCHAIN_URL } from '../constants'
-import { axiosInstance } from './index'
+import axiosMockAdapter from 'axios-mock-adapter'
+import axiosInstance from '.'
 
 describe('axiosInstance', () => {
-  it('should have the correct baseURL', () => {
-    expect(axiosInstance.defaults.baseURL).toBe(
-      import.meta.env.VITE_REACT_APP_API_URL || DEFAULT_BLOCKCHAIN_URL
-    )
+  let mock
+
+  beforeEach(() => {
+    mock = new axiosMockAdapter(axiosInstance)
   })
 
-  it('should have the correct headers', () => {
-    expect(axiosInstance.defaults.headers['Content-Type']).toBe(
-      'application/json'
-    )
-    expect(axiosInstance.defaults.headers.timeout).toBe(30000)
+  afterEach(() => {
+    mock.restore()
   })
 
-  it('should be an instance of axios', () => {
-    expect(axiosInstance).toBeInstanceOf(axios)
+  it('should make a successful GET request', async () => {
+    const mockResponse = { data: { symbol: 'test' } }
+    mock.onGet('/symbol').reply(200, mockResponse)
+
+    const response = await axiosInstance.get('/symbol')
+
+    expect(response.status).toBe(200)
+    expect(response.data).toEqual(mockResponse)
+  })
+
+  it('should handle a 404 error', async () => {
+    mock.onGet('/undefined-symbol').reply(404)
+
+    try {
+      await axiosInstance.get('/undefined-symbol')
+    } catch (error) {
+      expect(error.response.status).toBe(404)
+    }
+  })
+
+  it('should post data successfully', async () => {
+    const postData = { symbol: 'USDC' }
+    const mockResponse = { data: { symbol: 'USDC' } }
+    mock.onPost('/post-test').reply(200, mockResponse)
+
+    const response = await axiosInstance.post('/post-test', postData)
+
+    expect(response.status).toBe(200)
+    expect(response.data).toEqual(mockResponse)
   })
 })

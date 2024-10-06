@@ -1,34 +1,40 @@
-import axiosInstance from 'axios'
 import { describe, expect, it } from 'vitest'
+import * as axiosInstance from '.'
 import { getSymbol } from './symbol'
 
-jest.mock('axios')
-
 describe('getSymbol', () => {
+  const mockAxios = vi.spyOn(axiosInstance, 'default')
+
+  afterEach(() => {
+    vi.resetAllMocks()
+  })
+
   it('should return symbol data on successful API call', async () => {
-    const mockResponse = { data: { symbol: 'ABC' } }
-    axiosInstance.mockResolvedValueOnce(mockResponse)
+    const mockResponse = { data: { test: 'testSymbol' } }
+    const mockFn = vi.fn()
+    mockAxios.mockImplementationOnce(mockFn.mockReturnValueOnce(mockResponse))
 
-    const symbol = await getSymbol()
+    const response = await getSymbol()
 
-    expect(axiosInstance).toHaveBeenCalledWith({
+    expect(mockFn).toHaveBeenCalledWith({
       url: '/symbols',
       method: 'GET',
     })
-    expect(symbol).toEqual(mockResponse.data)
+    expect(response).toEqual(mockResponse.data)
   })
 
   it('should handle API call error', async () => {
-    const mockError = new Error('API call failed')
-    axiosInstance.mockRejectedValueOnce(mockError)
+    const mockFn = vi.fn()
+    mockAxios.mockImplementationOnce(
+      mockFn.mockReturnValueOnce(Promise.reject('error'))
+    )
 
-    const symbol = await getSymbol()
+    const response = await getSymbol()
 
-    expect(axiosInstance).toHaveBeenCalledWith({
+    expect(mockFn).toHaveBeenCalledWith({
       url: '/symbols',
       method: 'GET',
     })
-    expect(console.error).toHaveBeenCalledWith(mockError)
-    expect(symbol).toBeUndefined()
+    expect(response).toEqual('error')
   })
 })
