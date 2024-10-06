@@ -4,19 +4,16 @@ import * as binanceService from '../../src/services/binanceService'
 import * as coinbaseService from '../../src/services/coinbaseService'
 
 describe('GET /exchange-routing', () => {
-  // Mock the Binance and Coinbase services
-  beforeEach(() => {
-    jest.clearAllMocks() // Clear any previous mocks between tests
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   test('should return the best exchange based on the price comparison', async () => {
-    // Mock Binance and Coinbase prices
     jest.spyOn(binanceService, 'getBinanceSymbolPrice').mockResolvedValue(20000)
     jest
       .spyOn(coinbaseService, 'getCoinbaseSymbolPrice')
       .mockResolvedValue(21000)
 
-    // Send a request to the route
     const response = await request(app).get('/exchange-routing?amount=1')
 
     expect(response.status).toBe(200)
